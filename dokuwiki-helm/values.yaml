@@ -62,7 +62,7 @@ dokuwikiWikiName: My Wiki
 ## Base64 Encoded SSH Key
 ## ref: https://github.com/SoarinFerret/docker-dokuwiki#environment-variables
 ##
-# sshRsaKey:
+sshRsaKey: ""
 
 ## Url to Git Repo
 ## ref: https://github.com/SoarinFerret/docker-dokuwiki#environment-variables
