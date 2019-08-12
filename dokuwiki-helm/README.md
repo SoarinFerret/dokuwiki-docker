@@ -10,7 +10,7 @@ $ helm install stable/dokuwiki
 
 ## Introduction
 
-This chart bootstraps a [DokuWiki](https://github.com/bitnami/bitnami-docker-dokuwiki) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps a [DokuWiki](https://github.com/soarinferret/dokuwiki-docker) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager. This chart is based off the chart located [here](https://github.com/helm/charts/tree/master/stable/dokuwiki)
 
 Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This chart has been tested to work with NGINX Ingress, cert-manager, fluentd and Prometheus on top of the [BKPR](https://kubeprod.io/).
 
@@ -61,6 +61,9 @@ The following table lists the configurable parameters of the DokuWiki chart and 
 | `dokuwikiPassword`                   | Application password                                       | _random 10 character alphanumeric string_     |
 | `dokuwikiEmail`                      | User email                                                 | `user@example.com`                            |
 | `dokuwikiWikiName`                   | Wiki name                                                  | `My Wiki`                                     |
+| `sshRsaKey`                          | RSA private key for gitbacked                              | `""`                                          |
+| `gitRepo`                            | Git repo to clone                                          | `""`                                          |
+| `gitFingerprint`                     | Base64 encoded list known_hosts file                       | `""`                                          |
 | `service.type`                       | Kubernetes Service type                                    | `LoadBalancer`                                |
 | `service.port`                       | Service HTTP port                                          | `80`                                          |
 | `service.httpsPort`                  | Service HTTPS port                                         | `443`                                         |
@@ -91,7 +94,7 @@ The following table lists the configurable parameters of the DokuWiki chart and 
 | `livenessProbe.successThreshold`     | Minimum consecutive successes to be considered successful  | 1                                             |
 | `readinessProbe.enabled`             | Enable/disable the readiness probe                         | `true`                                        |
 | `readinessProbe.initialDelaySeconds` | Delay before readinessProbe is initiated                   | 30                                            |
-| `readinessProbe.periodSeconds   `    | How often to perform the probe                             | 10                                            |
+| `readinessProbe.periodSeconds`       | How often to perform the probe                             | 10                                            |
 | `readinessProbe.timeoutSeconds`      | When the probe times out                                   | 5                                             |
 | `readinessProbe.failureThreshold`    | Minimum consecutive failures to be considered failed       | 6                                             |
 | `readinessProbe.successThreshold`    | Minimum consecutive successes to be considered successful  | 1                                             |
@@ -108,7 +111,7 @@ The following table lists the configurable parameters of the DokuWiki chart and 
 | `metrics.podAnnotations`             | Additional annotations for Metrics exporter pod            | `{prometheus.io/scrape: "true", prometheus.io/port: "9117"}` |
 | `metrics.resources`                  | Exporter resource requests/limit                           | {}                                            |
 
-The above parameters map to the env variables defined in [bitnami/dokuwiki](http://github.com/bitnami/bitnami-docker-dokuwiki). For more information please refer to the [bitnami/dokuwiki](http://github.com/bitnami/bitnami-docker-dokuwiki) image documentation.
+The above parameters map to the env variables defined in [bitnami/dokuwiki](http://github.com/bitnami/bitnami-docker-dokuwiki) and [soarinferret/dokuwiki](https://github.com/soarinferret/dokuwiki-docker). For more information please refer to the [bitnami/dokuwiki](http://github.com/bitnami/bitnami-docker-dokuwiki) image documentation.
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
