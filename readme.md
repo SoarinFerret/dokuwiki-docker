@@ -19,7 +19,7 @@ Pretty simple, I inject a script into the bitnami container called `gitbacked_se
 
 ### Kubernetes? You got it
 
-Thats actually the reason I made this! You can use the default bitnami [helm chart](https://github.com/helm/charts/tree/master/stable/dokuwiki) for dokuwiki, replacing the image and adding the extra environment variables though secrets.
+Thats actually the reason I made this! You can use the default bitnami [helm chart](https://github.com/bitnami/charts/tree/master/bitnami/dokuwiki) for dokuwiki, replacing the image and adding the extra environment variables though secrets.
 
 ```bash
 RSA=$(cat id_rsa | base64 -w0 )
