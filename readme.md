@@ -19,19 +19,29 @@ Pretty simple, I inject a script into the bitnami container called `gitbacked_se
 
 ### Kubernetes? You got it
 
-Thats actually the reason I made this! I alterned the bitnami [helm chart](https://github.com/helm/charts/tree/master/stable/dokuwiki) for dokuwiki, replacing the image and adding the extra environment variables.
-
-I added 3 new values:
-
-* sshRsaKey - refers to SSH_RSA_KEY. This is transformed into a k8s secret
-* gitRepo - refers to GIT_REPO
-* gitFingerprint - refers to GIT_FINGERPRINT
+Thats actually the reason I made this! You can use the default bitnami [helm chart](https://github.com/helm/charts/tree/master/stable/dokuwiki) for dokuwiki, replacing the image and adding the extra environment variables though secrets.
 
 ```bash
 RSA=$(cat id_rsa | base64 -w0 )
 FINGER=$(ssh-keyscan gitlab.com | base64 -w 0)
 URL="git@gitlab.com:thisisnotarealrepo/ihope.git"
 
-helm install --name dokuwiki ./dokuwiki-helm \
-    --set dokuwikiUsername=notadmin,dokuwikiPassword=muahahahaha,sshRsaKey=$RSA,gitFingerprint=$FINGER,gitRepo=$URL
+tee ./doku-secret.yaml > /dev/null <<EOF
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitbacked
+  namespace: dokuwiki
+stringData:
+  GIT_FINGERPRINT: "$FINGER"
+  GIT_REPO: "$URL"
+  SSH_RSA_KEY: "$RSA"
+EOF
+
+kubectl create ns dokuwiki
+kubectl apply -f ./doku-secret.yaml
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install the-doku bitnami/dokuwiki --set image.repository=soarinferret/dokuwiki,image.tag=latest,extraEnvVarsSecret=gitbacked
 ```
